@@ -1,0 +1,16 @@
+
+#--------------------------------------------------------------------------------
+# cpp files that are used in the project
+#--------------------------------------------------------------------------------
+file(GLOB SRC "[a-zA-Z]*.cpp")
+set(view_SRC "${SRC}" PARENT_SCOPE)
+
+#--------------------------------------------------------------------------------
+# another list, this time it includes all header files that should be treated with moc
+#--------------------------------------------------------------------------------
+file(GLOB HEADER "[a-zA-Z]*.h")
+set(view_HEADER "${HEADER}" PARENT_SCOPE)
+
+
+
+
