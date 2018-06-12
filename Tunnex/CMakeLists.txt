@@ -176,36 +176,35 @@ INSTALL(CODE "
 # directories to look for dependencies
 SET(DIRS ${QT_LIBRARY_DIRS})
 
-# Now the work of copying dependencies into the bundle/package
-# The quotes are escaped and variables to use at install time have their $ escaped
-# An alternative is the do a configure_file() on a script and use install(SCRIPT  ...).
-# Note that the image plugins depend on QtSvg and QtXml, and it got those copied
-# over.
-#IF(QT_PLUGINS_DIR)
-#INSTALL(CODE "
-#    file(GLOB_RECURSE QTPLUGINS
-#      #\"\${CMAKE_INSTALL_PREFIX}/${plugin_dest_dir}/plugins/*${CMAKE_SHARED_LIBRARY_SUFFIX}\")
-#    include(BundleUtilities)
-#    fixup_bundle(\"${APPS}\" \"\${QTPLUGINS}\" \"${DIRS}\")
-#    " COMPONENT Runtime)
-#ENDIF(QT_PLUGINS_DIR)
-
-
 # To Create a package, one can run "cpack -G DragNDrop CPackConfig.cmake" on Mac OS X
 # where CPackConfig.cmake is created by including CPack
 # And then there's ways to customize this as well
-set(CPACK_BINARY_DRAGNDROP ON)
-include(CPack)
 
-IF(APPLE)
-  include(BundleUtilities)
-  IF(should_deploy)
-       add_custom_command( TARGET "${APP_NAME}" 
-            COMMAND "${MACDEPLOYQT}" "${CMAKE_BINARY_DIR}/bin/${APP_NAME}.app"
-            VERBATIM
-            COMMENT "Trying to deploy using ${MACDEPLOYQT}"
-            )
-    ENDIF(should_deploy)
+IF(DEPLOY)
+	include(CPack)
+	if(APPLE)
+		set(CPACK_BINARY_DRAGNDROP ON)
+		set(BINARY_PATH $<TARGET_BUNDLE_DIR:${APP_NAME}>)
+		add_custom_target(deploy ALL 
+		"${DEPLOYQT}" "${BINARY_PATH}"
+		DEPENDS ${APP_NAME}
+		USES_TERMINAL)
+	elseif(WIN32)
+		set(BINARY_PATH $<TARGET_FILE:${APP_NAME}>)
+		add_custom_target(deploy ALL 
+		"${DEPLOYQT}" "${BINARY_PATH}" "-printsupport"
+		DEPENDS ${APP_NAME})
+
+	endif(APPLE)
+	#add_custom_command(OUTPUT deployed
+			#COMMAND "${DEPLOYQT}" "${APP_NAME}"
+			#VERBATIM
+			#COMMENT "Deploying ${APP_NAME} using ${DEPLOYQT}"
+			#DEPENDS ${APP_NAME})
+
+ENDIF(DEPLOY)
+
+if(APPLE)
   set(MACOSX_BUNDLE_INFO_FILE_IN Resources/Info.plist.in)
   SET(MACOSX_BUNDLE_INFO_FILE Resources/Info.plist)
   SET(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/${MACOSX_BUNDLE_INFO_FILE})

@@ -15,6 +15,13 @@
 # TUNNEX 1.0.0 
 # Copyright (c) Henrik Quanz
 
+#------------------------------------------------------------------------------
+#
+#				Options
+#
+#------------------------------------------------------------------------------
+option(DEPLOY "If set the app will be deployed using qt tools" OFF)
+#------------------------------------------------------------------------------
 include(CheckCXXCompilerFlag)
 
 cmake_minimum_required(VERSION 3.9)
@@ -23,7 +30,6 @@ project(tunnex)
 IF( NOT CMAKE_BUILD_TYPE )
    SET( CMAKE_BUILD_TYPE Release)
 ENDIF()
-# Settings specified for building
 
 
 # A bug when linking against the qtmaind library on windows prevents
@@ -39,19 +45,33 @@ IF(WITH_TESTING)
     enable_testing()
 ENDIF(WITH_TESTING)
 
-# On apple systems we need to know where the macdeployqt is located
 IF(APPLE)
-    IF(should_deploy)
-        find_program(MACDEPLOYQT macdeployqt)
-        IF(NOT MACDEPLOYQT)
-            message(FATAL "Could not find macdeployqt for deploying")
-        ENDIF(NOT MACDEPLOYQT)
-        message(STATUS "Found macdeployqt: ${MACDEPLOYQT}")
-    ENDIF(should_deploy)
     if(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
     	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9 CACHE STRING "Minimum Version of MacOS supported" FORCE)
     endif(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
 ENDIF(APPLE)
+
+IF(DEPLOY)
+	# On apple systems we need to know where the macdeployqt is located
+	if(APPLE)
+        find_program(DEPLOYQT macdeployqt)
+        IF(NOT DEPLOYQT)
+            message(FATAL "Could not find macdeployqt for deploying")
+        ENDIF(NOT DEPLOYQT)
+        message(STATUS "Found macdeployqt: ${DEPLOYQT}")
+	ENDIF(APPLE)
+
+	# On Windows Systems we need to know wehre windeployqt is located
+	if(WIN32)
+			find_program(DEPLOYQT windeployqt)
+        IF(NOT DEPLOYQT)
+            message(FATAL "Could not find windeployqt for deploying")
+        ENDIF(NOT DEPLOYQT)
+        message(STATUS "Found windeployqt: ${DEPLOYQT}")
+	ENDIF(WIN32)
+
+ENDIF(DEPLOY)
+
 
 
 
