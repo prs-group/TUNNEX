@@ -28,6 +28,10 @@ PROJECT (tunnex)
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+set (tunnex_VERSION_MAJOR 1)
+set (tunnex_VERSION_MINOR 0)
+set (tunnex_VERSION_PATCH 0)
+
 INCLUDE_DIRECTORIES (
   # Look in the cmake build directory (some generated headers could be there)
   ${CMAKE_CURRENT_BINARY_DIR} 
@@ -194,9 +198,10 @@ set(CPACK_BINARY_DRAGNDROP ON)
 include(CPack)
 
 IF(APPLE)
-    IF(should_deploy)
-        add_custom_command( TARGET "${APP_NAME}" 
-            COMMAND "${MACDEPLOYQT}" "${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}.app"
+  include(BundleUtilities)
+  IF(should_deploy)
+       add_custom_command( TARGET "${APP_NAME}" 
+            COMMAND "${MACDEPLOYQT}" "${CMAKE_BINARY_DIR}/bin/${APP_NAME}.app"
             VERBATIM
             COMMENT "Trying to deploy using ${MACDEPLOYQT}"
             )
