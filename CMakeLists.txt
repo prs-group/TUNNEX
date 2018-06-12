@@ -48,6 +48,9 @@ IF(APPLE)
         ENDIF(NOT MACDEPLOYQT)
         message(STATUS "Found macdeployqt: ${MACDEPLOYQT}")
     ENDIF(should_deploy)
+    if(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
+    	set(CMAKE_OSX_DEPLOYMENT_TARGET 10.9 CACHE STRING "Minimum Version of MacOS supported" FORCE)
+    endif(NOT CMAKE_OSX_DEPLOYMENT_TARGET)
 ENDIF(APPLE)
 
 
@@ -129,4 +132,4 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/QCustomPlot")
 add_subdirectory("${PROJECT_SOURCE_DIR}/gui")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Tunnex")
 
-
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/license.txt)
