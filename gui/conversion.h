@@ -16,6 +16,7 @@
  TUNNEX 1.0.0 
  Copyright (c) Henrik Quanz
 */
+
 #ifndef CONVERSION_H
 #define CONVERSION_H
 
