@@ -32,8 +32,8 @@ int main(int argc, char *argv[]) {
 	QApplication *a = new QApplication(argc, argv);
 	QCoreApplication::setOrganizationName("Justus-Liebig-University");
 	short i = 1;
-	for (auto &a : a->arguments())
-		qDebug() << "Argument: " << i++ << a;
+	for (auto &argument : a->arguments())
+		qDebug() << "Argument: " << i++ << argument;
 
 	QCoreApplication::setOrganizationDomain("uni-giessen.de");
 	QCoreApplication::setApplicationName("TUNNEX");
