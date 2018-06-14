@@ -74,6 +74,14 @@ SET( tunnex_RCS
 
 )
 
+#--------------------------------------------------------------------------------
+# Configure file
+#--------------------------------------------------------------------------------
+# Get github tag
+INCLUDE(GetGitRevisionDescription)
+git_describe(GIT_TAG --tags --match v*.*.*)
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/gui_config.h.in
+	${CMAKE_CURRENT_BINARY_DIR}/gui_config.h @ONLY)
 
 if(VERBOSE)
 	message(STATUS "GUI Sources: ${misc_SRC} ${model_SRC} ${controller_SRC} \

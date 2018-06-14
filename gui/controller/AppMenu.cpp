@@ -31,6 +31,7 @@
 #include <QKeyEvent>
 #include <QWindow>
 #include <QMessageBox>
+#include "gui_config.h"
 
 
 using namespace WKB;
@@ -226,7 +227,13 @@ void AppMenu::aboutQt() {
 }
 
 void AppMenu::about() {
+#ifdef GIT_TAG
+	QString message(tr("Tunnex Version "));
+	message.append(GIT_TAG);
+	message.append(tr(" Copyright (C) 2018 Henrik Quanz \n"));
+#else
 	QString message(tr("Tunnex Copyright (C) 2018 Henrik Quanz \n"));
+#endif
 	message.append(tr("This program comes with ABSOLUTELY NO WARRANTY; "));
 	message.append(tr("This is free software, and you are welcome to "));
 	message.append(tr("redistribute it under certain conditions;"));
