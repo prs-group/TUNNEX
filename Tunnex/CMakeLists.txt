@@ -163,9 +163,11 @@ ENDIF(WIN32)
 #--------------------------------------------------------------------------------
 # install a qt.conf file
 # this inserts some cmake code into the install script to write the file
-INSTALL(CODE "
+if(APPLE OR WIN32)
+	INSTALL(CODE "
     file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${qtconf_dest_dir}/qt.conf\" \"\")
     " COMPONENT Runtime)
+endif(APPLE OR WIN32)
 
 
 #--------------------------------------------------------------------------------
@@ -181,7 +183,6 @@ SET(DIRS ${QT_LIBRARY_DIRS})
 # And then there's ways to customize this as well
 
 IF(DEPLOY)
-	include(CPack)
 	if(APPLE)
 		set(CPACK_BINARY_DRAGNDROP ON)
 		set(BINARY_PATH $<TARGET_BUNDLE_DIR:${APP_NAME}>)
@@ -201,7 +202,7 @@ IF(DEPLOY)
 			#VERBATIM
 			#COMMENT "Deploying ${APP_NAME} using ${DEPLOYQT}"
 			#DEPENDS ${APP_NAME})
-
+	include(CPackVariables_Tunnex)
 ENDIF(DEPLOY)
 
 if(APPLE)

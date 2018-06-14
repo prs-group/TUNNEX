@@ -61,6 +61,10 @@ option(APPLE_UNIVERSAL_BIN "Apple: Build universal binary" OFF)
 option(MSVC_SHARED_RT "MSVC: Build with shared runtime libs (/MD)" ON)
 option(MSVC_STHREADED_RT "MSVC: Build with single-threaded static runtime libs (/ML until VS .NET 2003)" OFF)
 
+if(UNIX AND NOT APPLE)
+	set(BUILD_SHARED_LIBS OFF)
+endif(UNIX AND NOT APPLE)
+
 
 
 set(header_directory ".")

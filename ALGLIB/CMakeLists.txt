@@ -90,6 +90,9 @@ include_directories(${ALGLIB_CPP_SOURCE_DIR})
 ###
 ### General compilation settings
 ###
+if(UNIX AND NOT APPLE)
+	set(BUILD_SHARED_LIBS OFF)
+endif(UNIX AND NOT APPLE)
 
 set(alglib_c_flags ${CMAKE_C_FLAGS})
 set(alglib_cxx_flags ${CMAKE_CXX_FLAGS})
@@ -240,6 +243,7 @@ if(WIN32)
 else()
 	set(_library_dir lib)
 endif()
+
 
 
 
