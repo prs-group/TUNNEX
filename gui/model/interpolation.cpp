@@ -21,7 +21,7 @@
 #include "model/interpolation.h"
 #include "model/AbstractXYDataFileModel.h"
 #include "ALGLIB/interpolation.h"
-#include "Math/adapt.h"
+#include "math/adapt.h"
 
 using namespace WKB::model;
 using namespace alglib;
