@@ -77,10 +77,10 @@ void ResultWidget::updateValues(){
     h2*=myTime::timeConvTable[0][_ui->combo_v2->currentIndex()];
     h3*=myTime::timeConvTable[0][_ui->combo_v3->currentIndex()];
     
-    _ui->resV0->setText(QString("%1").arg(h0,4,'f',2));
-    _ui->resV1->setText(QString("%1").arg(h1,4,'f',2));
-    _ui->resV2->setText(QString("%1").arg(h2,4,'f',2));
-    _ui->resV3->setText(QString("%1").arg(h3,4,'f',2));
+    _ui->resV0->setText(QString("%1").arg(h0,4,'G',2));
+    _ui->resV1->setText(QString("%1").arg(h1,4,'G',2));
+    _ui->resV2->setText(QString("%1").arg(h2,4,'G',2));
+    _ui->resV3->setText(QString("%1").arg(h3,4,'G',2));
 }
 
 const QVector<double>& ResultWidget::getHalfLives() const{
